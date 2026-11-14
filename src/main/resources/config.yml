@@ -1,0 +1,39 @@
+# Chat Translator — los cambios se aplican al reiniciar el servidor.
+
+# Idiomas a los que se traduce. Cada jugador recibe el de su Minecraft si está en esta lista.
+languages:
+  - es
+  - en
+  - pt
+  - fr
+  - it
+
+# Si el Minecraft de un jugador está en otro idioma, se le traduce a este.
+fallbackLanguage: en
+
+# Servicio de traducción: google (gratis, sin clave), deepl (necesita clave), libretranslate o mymemory.
+provider: google
+
+# Si el principal falla o lo frenan por exceso de pedidos, se usa este: mymemory (gratis, sin clave) o none.
+fallbackProvider: mymemory
+
+# Minutos que se deja de usar un servicio cuando responde "demasiados pedidos" (HTTP 429).
+rateLimitCooldownMinutes: 10
+
+# Opcional: con un mail, MyMemory sube su límite de 5.000 a 50.000 caracteres por día.
+myMemoryEmail: ""
+
+deeplApiKey: ""
+
+libreTranslateUrl: "https://libretranslate.com"
+libreTranslateApiKey: ""
+
+# Mensajes más cortos que esto no se traducen; los más largos se cortan.
+minLength: 2
+maxLength: 256
+
+timeoutSeconds: 6
+
+# Cómo se ve la línea traducida. Colores con &.
+# {player} = quien escribió, {from} = idioma original, {to} = idioma del que lee, {text} = traducción
+format: "&8 ↳ &7[{from}] {player}: &f{text}"

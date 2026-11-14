@@ -1,0 +1,39 @@
+plugins {
+	id 'java'
+}
+
+group = 'dev.edoras.translator'
+version = '1.0.1'
+
+base {
+	archivesName = 'ChatTranslator-plugin-26.3'
+}
+
+repositories {
+	mavenCentral()
+	maven {
+		name = 'papermc'
+		url = 'https://repo.papermc.io/repository/maven-public/'
+	}
+}
+
+dependencies {
+	// Solo para compilar: el servidor ya trae la API. Desde 26.1 Paper numera así: <versión>.build.<n>
+	compileOnly 'io.papermc.paper:paper-api:26.3.build.+'
+}
+
+java {
+	toolchain.languageVersion = JavaLanguageVersion.of(25)
+}
+
+tasks.withType(JavaCompile).configureEach {
+	options.encoding = 'UTF-8'
+}
+
+processResources {
+	def v = project.version
+	inputs.property 'version', v
+	filesMatching('plugin.yml') {
+		expand 'version': v
+	}
+}

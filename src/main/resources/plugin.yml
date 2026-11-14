@@ -1,0 +1,7 @@
+name: ChatTranslator
+version: '${version}'
+main: dev.edoras.translator.ChatTranslatorPlugin
+api-version: '26.3'
+description: Traduce el chat automáticamente al idioma de cada jugador. Sin comandos.
+author: Benjamin
+folia-supported: false

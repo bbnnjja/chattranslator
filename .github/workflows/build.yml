@@ -1,0 +1,38 @@
+# Compila el plugin (Paper 26.3) cada vez que se suben cambios a la rama "plugin".
+# El .jar queda en Actions > Artifacts y en la rama "dist-plugin" (carpeta jars/).
+name: build-plugin
+on:
+  push:
+    branches: [plugin]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: gradle/actions/wrapper-validation@v6
+      - uses: actions/setup-java@v5
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+      - run: chmod +x ./gradlew
+      - run: ./gradlew build
+      - uses: actions/upload-artifact@v7
+        with:
+          name: chattranslator-plugin-jar
+          path: build/libs/
+      - name: Guardar el .jar en la rama dist-plugin
+        run: |
+          mkdir -p /tmp/dist/jars
+          cp build/libs/*.jar /tmp/dist/jars/
+          cd /tmp/dist
+          git init -q -b dist-plugin
+          git config user.name "github-actions[bot]"
+          git config user.email "41898341+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Build ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" dist-plugin
