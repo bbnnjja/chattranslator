@@ -1,7 +1,11 @@
 # Compila el mod en GitHub cada vez que subís cambios.
-# El .jar queda en la pestaña "Actions" > el último build > "Artifacts".
+# El .jar queda en: la pestaña "Actions" > el último build > "Artifacts",
+# y también en la rama "dist" del repo (carpeta jars/).
 name: build
 on: [push, pull_request, workflow_dispatch]
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -19,3 +23,15 @@ jobs:
         with:
           name: chattranslator-jar
           path: build/libs/
+      - name: Guardar el .jar en la rama dist
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          mkdir -p /tmp/dist/jars
+          cp build/libs/*.jar /tmp/dist/jars/
+          cd /tmp/dist
+          git init -q -b dist
+          git config user.name "github-actions[bot]"
+          git config user.email "41898341+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Build ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" dist
