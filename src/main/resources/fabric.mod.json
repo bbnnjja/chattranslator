@@ -1,0 +1,19 @@
+{
+	"schemaVersion": 1,
+	"id": "chattranslator",
+	"version": "${version}",
+	"name": "Chat Translator",
+	"description": "Traduce el chat del servidor al idioma de cada jugador. Solo servidor: los jugadores no necesitan instalar nada.",
+	"authors": ["Benjamin"],
+	"license": "MIT",
+	"environment": "*",
+	"entrypoints": {
+		"main": ["dev.edoras.translator.ChatTranslator"]
+	},
+	"depends": {
+		"fabricloader": ">=0.17.0",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}

@@ -1,0 +1,21 @@
+# Compila el mod en GitHub cada vez que subís cambios.
+# El .jar queda en la pestaña "Actions" > el último build > "Artifacts".
+name: build
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: gradle/actions/wrapper-validation@v6
+      - uses: actions/setup-java@v5
+        with:
+          java-version: '25'
+          distribution: 'microsoft'
+      - run: chmod +x ./gradlew
+      - run: ./gradlew build
+      - uses: actions/upload-artifact@v7
+        with:
+          name: chattranslator-jar
+          path: build/libs/
